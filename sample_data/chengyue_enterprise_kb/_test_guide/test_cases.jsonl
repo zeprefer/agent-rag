@@ -1,0 +1,15 @@
+{"id":"exact_001","question":"澄岳智造的苏州和深圳地点代码分别是什么？","expected_keywords":["CN-SZ","CN-SHEN"],"sources":["01_company_operating_model.md"],"type":"exact"}
+{"id":"exact_002","question":"CY-Edge X7 的标准型号和标准保修期是什么？","expected_keywords":["CYX7-4200","36个月"],"sources":["04_product_service_catalog.md"],"type":"exact"}
+{"id":"exact_003","question":"安全事件紧急内部热线分机是多少？","expected_keywords":["7711"],"sources":["03_information_security_and_data_classification.md"],"type":"exact"}
+{"id":"calc_001","question":"经理在深圳住 620 元一晚是否超标？","expected_keywords":["不超标","A类","650"],"sources":["05_travel_and_expense_policy.docx"],"type":"calculation"}
+{"id":"calc_002","question":"成都酒店含早餐，当天午晚餐共 170 元能否全报？","expected_keywords":["不能","144","26"],"sources":["05_travel_and_expense_policy.docx"],"type":"calculation"}
+{"id":"calc_003","question":"当月可用性 99.3%，通用服务抵扣比例是多少？","expected_keywords":["10%","30个自然日"],"sources":["10_customer_support_sla_v2.2.pdf"],"type":"calculation"}
+{"id":"cross_001","question":"在常驻城市外连续远程工作 14 天并处理客户设备数据，需要什么批准和控制？","expected_keywords":["HR-REMOTE-03","三方批准","公司管理设备","VPN","多因素认证"],"sources":["02_employee_handbook_2026.md","03_information_security_and_data_classification.md"],"type":"cross_document"}
+{"id":"cross_002","question":"购买 AtlasOps Enterprise 是否自动有 7x24 P1 支持？","expected_keywords":["不自动","支持服务订单"],"sources":["04_product_service_catalog.md","10_customer_support_sla_v2.2.pdf"],"type":"cross_document"}
+{"id":"cross_003","question":"8,000 元 SaaS 会访问客户生产数据，能否直接报销？","expected_keywords":["不能","采购","安全评审"],"sources":["03_information_security_and_data_classification.md","05_travel_and_expense_policy.docx","06_procurement_and_supplier_management.md"],"type":"cross_document"}
+{"id":"version_001","question":"当前关键业务支持 P1 的初次响应和恢复目标是什么？","expected_keywords":["10分钟","4小时"],"forbidden_keywords":["15分钟","6小时"],"sources":["10_customer_support_sla_v2.2.pdf"],"type":"version"}
+{"id":"version_002","question":"2026-02-18 遥测事件应按哪个 P1 初次响应目标评估，是否达标？","expected_keywords":["15分钟","11分钟","达标","不追溯"],"sources":["08_incident_postmortem_atlasops_2026_02_18.md","05_customer_support_sla_v2.1_legacy.md"],"type":"temporal"}
+{"id":"incident_001","question":"遥测延迟事件的直接根因是什么？","expected_keywords":["max.batch.records","5000","800","分区"],"sources":["08_incident_postmortem_atlasops_2026_02_18.md"],"type":"analysis"}
+{"id":"incident_002","question":"该事件有没有数据丢失或跨租户混合？","expected_keywords":["没有证据","差异为零","不在验证范围"],"sources":["08_incident_postmortem_atlasops_2026_02_18.md"],"type":"qualified_answer"}
+{"id":"boundary_001","question":"澄岳智造 2025 年营业收入是多少？","expected_behavior":"insufficient_context","type":"no_answer"}
+{"id":"boundary_002","question":"AtlasOps 使用哪一家公有云？","expected_behavior":"insufficient_context","type":"no_answer"}

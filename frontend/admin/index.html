@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>企业智能体 · 知识管理后台</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">智</div>
+          <div>
+            <h1>企业智能体</h1>
+            <p>知识管理后台</p>
+          </div>
+        </div>
+
+        <form id="loginForm" class="panel auth-panel">
+          <label>
+            API 地址
+            <input id="apiBaseInput" type="url" value="http://localhost:8000/api/v1" autocomplete="url" />
+          </label>
+          <label>
+            邮箱
+            <input id="emailInput" type="email" placeholder="admin@example.com" autocomplete="username" required />
+          </label>
+          <label>
+            密码
+            <input id="passwordInput" type="password" placeholder="请输入密码" autocomplete="current-password" required />
+          </label>
+          <button class="primary-button" type="submit">登录</button>
+          <p id="authStatus" class="status-text"></p>
+        </form>
+
+        <section class="panel user-panel hidden" id="userPanel">
+          <div class="user-row">
+            <div class="user-identity">
+              <span class="eyebrow">当前用户</span>
+              <strong id="userEmail">-</strong>
+            </div>
+            <button id="logoutButton" class="ghost-button compact-button" type="button">退出</button>
+          </div>
+        </section>
+
+        <section id="kbContextPanel" class="context-panel hidden">
+          <label for="kbSelect">当前知识库</label>
+          <div class="context-select-row">
+            <select id="kbSelect" aria-label="当前知识库"></select>
+            <button id="refreshKbButton" class="icon-button" type="button" title="刷新知识库" aria-label="刷新知识库">↻</button>
+          </div>
+        </section>
+
+        <nav id="adminNav" class="admin-nav hidden" aria-label="管理模块">
+          <button class="nav-item active" type="button" data-view-target="overview">
+            <span class="nav-icon">总</span><span>总览</span>
+          </button>
+          <button class="nav-item" type="button" data-view-target="knowledge" data-requires="knowledge">
+            <span class="nav-icon">库</span><span>知识库</span>
+          </button>
+          <button class="nav-item" type="button" data-view-target="documents" data-requires="knowledge">
+            <span class="nav-icon">文</span><span>文档管理</span>
+          </button>
+          <button class="nav-item" type="button" data-view-target="indexing" data-requires="knowledge">
+            <span class="nav-icon">索</span><span>索引与分块</span>
+          </button>
+          <button class="nav-item" type="button" data-view-target="agents" data-requires="knowledge">
+            <span class="nav-icon">智</span><span>智能体</span>
+          </button>
+          <div class="nav-divider" data-requires="governance"></div>
+          <button class="nav-item" type="button" data-view-target="users" data-requires="governance">
+            <span class="nav-icon">人</span><span>用户与权限</span>
+          </button>
+          <button class="nav-item" type="button" data-view-target="audit" data-requires="governance">
+            <span class="nav-icon">审</span><span>审计日志</span>
+          </button>
+          <button class="nav-item" type="button" data-view-target="settings" data-requires="governance">
+            <span class="nav-icon">设</span><span>租户设置</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">Enterprise Agent RAG</div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <span id="workspaceEyebrow" class="eyebrow">管理控制台</span>
+            <h2 id="workspaceTitle">运营总览</h2>
+            <p id="workspaceSubtitle" class="workspace-subtitle">查看知识资产、索引与治理状态</p>
+          </div>
+          <div class="topbar-actions">
+            <span id="apiState" class="pill neutral">未连接</span>
+            <button id="refreshAllButton" class="secondary-button" type="button">刷新当前数据</button>
+          </div>
+        </header>
+
+        <div id="viewStack" class="view-stack">
+          <section class="admin-view active" data-view="overview">
+            <section class="metrics-row">
+              <button class="metric" type="button" data-view-target="knowledge">
+                <span>知识库</span><strong id="kbCount">0</strong><small>管理知识域</small>
+              </button>
+              <button class="metric" type="button" data-view-target="documents">
+                <span>当前库文档</span><strong id="documentCount">0</strong><small>上传与版本状态</small>
+              </button>
+              <button class="metric" type="button" data-view-target="indexing">
+                <span>已索引</span><strong id="indexedCount">0</strong><small>当前库可检索文档</small>
+              </button>
+              <button class="metric" type="button" data-view-target="indexing">
+                <span>索引任务</span><strong id="jobCount">0</strong><small>最近任务记录</small>
+              </button>
+            </section>
+
+            <section class="dashboard-grid">
+              <article class="panel overview-card overview-context-card">
+                <span class="eyebrow">当前工作上下文</span>
+                <h3 id="overviewKbName">尚未选择知识库</h3>
+                <p id="overviewKbDescription">创建或选择知识库后即可管理文档与索引。</p>
+                <div class="overview-facts">
+                  <div><span>状态</span><strong id="overviewKbStatus">-</strong></div>
+                  <div><span>索引覆盖</span><strong id="overviewCoverage">0%</strong></div>
+                  <div><span>失败文档</span><strong id="overviewFailedCount">0</strong></div>
+                </div>
+                <button class="secondary-button" type="button" data-view-target="documents">进入文档管理</button>
+              </article>
+
+              <article class="panel overview-card">
+                <span class="eyebrow">常用操作</span>
+                <h3>按任务进入对应页面</h3>
+                <div class="quick-actions">
+                  <button type="button" data-view-target="knowledge"><strong>创建知识库</strong><span>维护知识域与描述</span></button>
+                  <button type="button" data-view-target="documents"><strong>上传文档</strong><span>检查解析与版本状态</span></button>
+                  <button type="button" data-view-target="indexing"><strong>查看任务</strong><span>定位失败任务与分块</span></button>
+                  <button type="button" data-view-target="agents"><strong>配置智能体</strong><span>设置提示词与召回策略</span></button>
+                </div>
+              </article>
+
+              <article class="panel overview-card compact-status-card">
+                <span class="eyebrow">系统状态</span>
+                <h3>管理端连接</h3>
+                <div class="status-line"><span>API</span><strong id="overviewApiStatus">等待登录</strong></div>
+                <div class="status-line"><span>当前角色</span><strong id="overviewRole">-</strong></div>
+                <p>详细的用户、审计与租户设置已拆分为独立管理页面。</p>
+              </article>
+            </section>
+          </section>
+
+          <section class="admin-view" data-view="knowledge" data-requires="knowledge">
+            <div class="page-section-grid knowledge-layout">
+              <section class="panel create-panel">
+                <div class="section-heading">
+                  <div><h3>创建知识库</h3><p>建立独立的知识域和文档边界</p></div>
+                </div>
+                <form id="kbForm" class="stack">
+                  <label>名称<input id="kbNameInput" type="text" placeholder="例如：企业制度中心" maxlength="160" required /></label>
+                  <label>描述<textarea id="kbDescriptionInput" rows="5" placeholder="说明内容范围、使用对象和维护责任"></textarea></label>
+                  <button class="primary-button" type="submit">创建知识库</button>
+                </form>
+              </section>
+
+              <section class="panel list-panel">
+                <div class="section-heading">
+                  <div><h3>知识库列表</h3><p>选择后将成为文档、索引和智能体页面的当前上下文</p></div>
+                </div>
+                <nav id="kbList" class="kb-list" aria-label="知识库列表"></nav>
+              </section>
+            </div>
+          </section>
+
+          <section class="admin-view" data-view="documents" data-requires="knowledge">
+            <section class="panel upload-panel">
+              <div class="section-heading">
+                <div><h3>上传文档</h3><p>支持 docx、doc、pdf、md；上传后再建立索引</p></div>
+              </div>
+              <form id="uploadForm" class="upload-form">
+                <label>显示标题<input id="documentTitleInput" type="text" placeholder="选填，默认使用文件名" /></label>
+                <label>标签<input id="documentTagsInput" type="text" placeholder="制度, 产品, 常见问题" /></label>
+                <label class="file-input"><input id="documentFileInput" type="file" accept=".doc,.docx,.pdf,.md" required /><span id="fileInputLabel">选择文件</span></label>
+                <button class="primary-button" type="submit">上传文档</button>
+              </form>
+            </section>
+
+            <div class="documents-layout">
+              <section class="panel documents-panel">
+                <div class="section-heading"><div><h3>文档列表</h3><p>点击一行查看版本、对象存储与解析信息</p></div></div>
+                <div id="documentTable" class="table"></div>
+              </section>
+              <aside class="panel detail-panel">
+                <div class="section-heading"><h3>文档详情</h3></div>
+                <div id="documentDetail" class="detail-empty">尚未选择文档</div>
+              </aside>
+            </div>
+          </section>
+
+          <section class="admin-view" data-view="indexing" data-requires="knowledge">
+            <div class="indexing-layout">
+              <section class="panel jobs-panel">
+                <div class="section-heading">
+                  <div><h3>索引任务</h3><p>显示当前文档或最近任务的执行结果</p></div>
+                  <button id="refreshJobsButton" class="icon-button" type="button" title="刷新索引任务" aria-label="刷新索引任务">↻</button>
+                </div>
+                <div id="jobsList" class="jobs-list"></div>
+              </section>
+              <section class="panel chunks-panel">
+                <div class="section-heading"><div><h3>文档分块</h3><p id="chunksSubtitle">请从文档管理页面选择“查看分块”</p></div></div>
+                <div id="chunksList" class="chunks-list"></div>
+              </section>
+            </div>
+          </section>
+
+          <section id="agentsPanel" class="admin-view hidden" data-view="agents" data-requires="knowledge">
+            <div class="management-layout">
+              <section class="panel editor-panel">
+                <div class="section-heading"><div><h3>创建智能体</h3><p>配置提示词、模型和知识检索策略</p></div></div>
+                <form id="agentForm" class="settings-form">
+                  <input id="agentNameInput" type="text" placeholder="智能体名称" maxlength="160" required />
+                  <textarea id="agentDescriptionInput" rows="2" placeholder="智能体描述（选填）"></textarea>
+                  <textarea id="agentPromptInput" rows="7" placeholder="系统提示词" required></textarea>
+                  <label>默认知识库<div id="agentKbOptions" class="checkbox-list"></div></label>
+                  <div class="settings-grid">
+                    <label>状态<select id="agentStatusInput"><option value="draft">草稿</option><option value="published">已发布</option></select></label>
+                    <label>召回数量（Top K）<input id="agentTopKInput" type="number" min="1" max="30" value="8" /></label>
+                    <label>生成温度<input id="agentTemperatureInput" type="number" min="0" max="2" step="0.1" value="0.2" /></label>
+                    <label>上下文长度<input id="agentContextInput" type="number" min="500" max="12000" value="3500" /></label>
+                    <label>最大推理轮数<input id="agentMaxIterationsInput" type="number" min="1" max="10" value="4" /></label>
+                    <label>记忆消息数<input id="agentMemoryWindowInput" type="number" min="0" max="50" value="12" /></label>
+                  </div>
+                  <div class="checkbox-list">
+                    <label class="checkbox-row"><input id="agentKnowledgeSearchInput" type="checkbox" checked />启用企业知识检索工具</label>
+                    <label class="checkbox-row"><input id="agentRequireCitationsInput" type="checkbox" checked />企业问题必须经过证据检索</label>
+                  </div>
+                  <input id="agentModelInput" type="text" placeholder="对话模型（选填），例如 qwen-plus" />
+                  <button class="primary-button" type="submit">创建智能体</button>
+                </form>
+              </section>
+              <section class="panel list-panel">
+                <div class="section-heading"><div><h3>智能体列表</h3><p>发布、退回草稿或归档现有智能体</p></div><button id="refreshAgentsButton" class="icon-button" type="button" title="刷新智能体">↻</button></div>
+                <div id="agentsList" class="governance-list"></div>
+              </section>
+            </div>
+          </section>
+
+          <section id="governancePanel" class="admin-view hidden" data-view="users" data-requires="governance">
+            <div class="management-layout users-layout">
+              <section class="panel editor-panel">
+                <div class="section-heading"><div><h3>创建用户</h3><p>添加租户成员并设置初始角色</p></div></div>
+                <form id="userForm" class="governance-form">
+                  <label>邮箱<input id="newUserEmailInput" type="email" placeholder="email@company.com" required /></label>
+                  <label>名称<input id="newUserNameInput" type="text" placeholder="用户名称" maxlength="120" /></label>
+                  <label>初始密码<input id="newUserPasswordInput" type="password" placeholder="至少 8 位" minlength="8" required /></label>
+                  <label>角色<select id="newUserRoleInput"><option value="user">普通用户</option><option value="manager">知识管理员</option><option value="admin">系统管理员</option></select></label>
+                  <button class="primary-button" type="submit">创建用户</button>
+                </form>
+                <section id="rolesPanel" class="roles-summary hidden">
+                  <div class="section-heading"><h3>角色权限</h3></div>
+                  <div id="rolesList" class="governance-list"></div>
+                </section>
+              </section>
+              <section class="panel list-panel">
+                <div class="section-heading"><div><h3>租户成员</h3><p>调整角色、状态或停用账号</p></div><button id="refreshUsersButton" class="icon-button" type="button" title="刷新用户">↻</button></div>
+                <div id="usersList" class="governance-list"></div>
+              </section>
+            </div>
+          </section>
+
+          <section id="auditPanel" class="admin-view hidden" data-view="audit" data-requires="governance">
+            <section class="panel full-page-panel">
+              <div class="section-heading"><div><h3>审计日志</h3><p>最近的租户操作、资源与执行结果</p></div><button id="refreshAuditButton" class="icon-button" type="button" title="刷新审计日志">↻</button></div>
+              <div id="auditLogsList" class="governance-list audit-list"></div>
+            </section>
+          </section>
+
+          <section id="tenantSettingsPanel" class="admin-view hidden" data-view="settings" data-requires="governance">
+            <section class="panel settings-page-panel">
+              <div class="section-heading"><div><h3>租户设置</h3><p>统一配置文件、安全、检索和数据保留策略</p></div></div>
+              <form id="tenantSettingsForm" class="settings-form tenant-settings-form">
+                <div class="settings-group">
+                  <h4>文件与容量</h4>
+                  <label>知识库文件格式<input id="settingExtensionsInput" type="text" placeholder="docx,doc,pdf,md" /></label>
+                  <label>文档上传上限（MB）<input id="settingUploadSizeInput" type="number" min="1" max="500" /></label>
+                  <label>聊天附件上限（MB）<input id="settingAttachmentSizeInput" type="number" min="1" max="100" /></label>
+                </div>
+                <div class="settings-group">
+                  <h4>检索与生成</h4>
+                  <label>检索召回数量（Top K）<input id="settingTopKInput" type="number" min="1" max="30" /></label>
+                  <label>生成温度<input id="settingTemperatureInput" type="number" min="0" max="2" step="0.1" /></label>
+                  <label>数据保留天数<input id="settingRetentionInput" type="number" min="1" max="3650" /></label>
+                </div>
+                <div class="settings-group settings-switches">
+                  <h4>安全控制</h4>
+                  <label class="checkbox-row"><input id="settingAuditInput" type="checkbox" />启用审计日志</label>
+                  <label class="checkbox-row"><input id="settingScanInput" type="checkbox" />启用上传安全扫描</label>
+                </div>
+                <div class="settings-submit"><button class="primary-button" type="submit">保存设置</button></div>
+              </form>
+            </section>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

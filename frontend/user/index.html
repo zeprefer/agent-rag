@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>企业智能体 · 知识问答</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">智</div>
+          <div>
+            <h1>企业智能体</h1>
+            <p>企业知识问答</p>
+          </div>
+        </div>
+
+        <form id="loginForm" class="panel auth-panel">
+          <label>
+            API 地址
+            <input id="apiBaseInput" type="url" value="http://localhost:8000/api/v1" autocomplete="url" />
+          </label>
+          <label>
+            邮箱
+            <input id="emailInput" type="email" placeholder="user@example.com" autocomplete="username" required />
+          </label>
+          <label>
+            密码
+            <input id="passwordInput" type="password" placeholder="请输入密码" autocomplete="current-password" required />
+          </label>
+          <button class="primary-button" type="submit">登录</button>
+          <p id="authStatus" class="status-text"></p>
+        </form>
+
+        <section id="userPanel" class="panel user-panel hidden">
+          <div>
+            <span class="eyebrow">当前用户</span>
+            <strong id="userEmail">-</strong>
+          </div>
+          <button id="logoutButton" class="ghost-button" type="button">退出登录</button>
+        </section>
+
+        <section class="panel agent-panel">
+          <label>
+            智能体
+            <select id="agentSelect">
+              <option value="">默认助手</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="session-tools">
+          <button id="newSessionButton" class="secondary-button" type="button">新建对话</button>
+          <button id="refreshSessionsButton" class="icon-button" type="button" title="刷新对话" aria-label="刷新对话">↻</button>
+        </section>
+
+        <nav id="sessionList" class="session-list" aria-label="对话列表"></nav>
+      </aside>
+
+      <main class="chat-workspace">
+        <header class="topbar">
+          <div>
+            <span class="eyebrow">知识问答</span>
+            <h2 id="sessionTitle">企业知识助手</h2>
+          </div>
+          <span id="apiState" class="pill neutral">未连接</span>
+        </header>
+
+        <section id="messages" class="messages" aria-live="polite"></section>
+
+        <form id="messageForm" class="composer">
+          <textarea id="messageInput" rows="2" placeholder="请输入企业知识相关问题，Ctrl + Enter 快速发送" required></textarea>
+          <div class="attachment-row">
+            <label class="attachment-button">
+              <input id="attachmentInput" type="file" multiple accept=".doc,.docx,.pdf,.md,.txt,.png,.jpg,.jpeg,.webp" />
+              <span>添加附件</span>
+            </label>
+            <div id="pendingAttachments" class="pending-attachments"></div>
+          </div>
+          <div class="composer-actions">
+            <span id="composerStatus" class="status-text"></span>
+            <button id="sendButton" class="primary-button" type="submit">发送</button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

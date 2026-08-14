@@ -1,0 +1,172 @@
+{
+  "status": "passed",
+  "knowledge_base_directory": "D:\\CODEX_PRO\\agent_rag\\sample_data\\chengyue_enterprise_kb\\knowledge_base_files",
+  "document_count": 10,
+  "total_bytes": 329132,
+  "total_extracted_characters": 28361,
+  "total_chunks": 127,
+  "documents": [
+    {
+      "filename": "01_company_operating_model.md",
+      "extension": "md",
+      "bytes": 7134,
+      "sha256": "f772ec599cacbcc9d1cc4f5e6455ef33f41f228fbc86a40afc464edadcfa9587",
+      "sections": 12,
+      "chunks": 12,
+      "extracted_characters": 2965,
+      "heading_sections": 12,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 45,
+        "max": 291,
+        "mean": 172.9
+      }
+    },
+    {
+      "filename": "02_employee_handbook_2026.md",
+      "extension": "md",
+      "bytes": 7994,
+      "sha256": "3db951184f492235de46a835b5e6b08601d5f4399741f2cfbdd553c7d7825763",
+      "sections": 15,
+      "chunks": 15,
+      "extracted_characters": 3178,
+      "heading_sections": 15,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 46,
+        "max": 263,
+        "mean": 157
+      }
+    },
+    {
+      "filename": "03_information_security_and_data_classification.md",
+      "extension": "md",
+      "bytes": 7915,
+      "sha256": "2c46501d34e75e74a3aa5f05472e0644b7d411788e04861128d8e77c606f6988",
+      "sections": 16,
+      "chunks": 16,
+      "extracted_characters": 3141,
+      "heading_sections": 16,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 49,
+        "max": 298,
+        "mean": 146
+      }
+    },
+    {
+      "filename": "04_product_service_catalog.md",
+      "extension": "md",
+      "bytes": 6788,
+      "sha256": "4a25750db6ce39135e607bf11f0e4fa95b8b47ab069e145d82225040489005a8",
+      "sections": 16,
+      "chunks": 16,
+      "extracted_characters": 3027,
+      "heading_sections": 16,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 45,
+        "max": 263,
+        "mean": 122.1
+      }
+    },
+    {
+      "filename": "05_travel_and_expense_policy.docx",
+      "extension": "docx",
+      "bytes": 43842,
+      "sha256": "2daafb411658577e222e7b70098c1d34bdb13e436b7203d3e85da3f823f7844a",
+      "sections": 13,
+      "chunks": 13,
+      "extracted_characters": 3046,
+      "heading_sections": 12,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 30,
+        "max": 581,
+        "mean": 185
+      }
+    },
+    {
+      "filename": "06_procurement_and_supplier_management.md",
+      "extension": "md",
+      "bytes": 6453,
+      "sha256": "4ef548294efab7a068173ca498afd550b63778c9e3f92513c6d0291498d10cc7",
+      "sections": 13,
+      "chunks": 13,
+      "extracted_characters": 2549,
+      "heading_sections": 13,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 45,
+        "max": 271,
+        "mean": 145.8
+      }
+    },
+    {
+      "filename": "07_customer_success_and_escalation_playbook.md",
+      "extension": "md",
+      "bytes": 6268,
+      "sha256": "b6e0673cab5afe75026c7a70a384aed5ba80f595a69d567cec2719bcf3d5a5cb",
+      "sections": 15,
+      "chunks": 15,
+      "extracted_characters": 2504,
+      "heading_sections": 15,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 47,
+        "max": 244,
+        "mean": 119.8
+      }
+    },
+    {
+      "filename": "08_incident_postmortem_atlasops_2026_02_18.md",
+      "extension": "md",
+      "bytes": 6744,
+      "sha256": "55b7c69c7acb18a609a3fbcf661bf4d1f5664188b3dfe10118f700eb2eba26ee",
+      "sections": 11,
+      "chunks": 11,
+      "extracted_characters": 3087,
+      "heading_sections": 11,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 75,
+        "max": 376,
+        "mean": 183.2
+      }
+    },
+    {
+      "filename": "09_change_release_and_rollback_sop.md",
+      "extension": "md",
+      "bytes": 5244,
+      "sha256": "2916e00a1f1cea7cd096133e634d9ebbc2eef20544bf9c9ae8fa1c0a0717f368",
+      "sections": 13,
+      "chunks": 13,
+      "extracted_characters": 2163,
+      "heading_sections": 13,
+      "page_sections": 0,
+      "chunk_tokens": {
+        "min": 46,
+        "max": 153,
+        "mean": 117.5
+      }
+    },
+    {
+      "filename": "10_customer_support_sla_v2.2.pdf",
+      "extension": "pdf",
+      "bytes": 230750,
+      "sha256": "70004ba1278af0d665d6eda2a2479029b023a09b4b686db26921ac283f12d473",
+      "sections": 3,
+      "chunks": 3,
+      "extracted_characters": 2701,
+      "heading_sections": 0,
+      "page_sections": 3,
+      "chunk_tokens": {
+        "min": 489,
+        "max": 901,
+        "mean": 723.3
+      }
+    }
+  ],
+  "test_case_count": 15,
+  "failures": []
+}
