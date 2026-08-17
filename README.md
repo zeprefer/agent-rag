@@ -9,6 +9,18 @@ An enterprise knowledge-base AI Agent project with an admin console, user chat c
 - RAG backend: tenant-aware and knowledge-base-aware vector retrieval, followed by Bailian Chat answer generation with citations.
 - Enterprise hardening: JWT, tenant isolation, object storage, async indexing, structured logs, rate limits, security headers, upload scanning, and Docker Compose deployment.
 
+## 中文介绍
+
+Enterprise Agent RAG 是一个面向企业知识库场景的 AI Agent 项目。项目提供管理控制台与用户对话端，后端基于 Python/FastAPI，使用 PostgreSQL + pgvector、Redis、MinIO 与 Celery，并接入阿里云百炼/DashScope 模型服务。
+
+### 功能范围
+
+- 管理端：知识库增删改查、文档上传与版本管理、索引任务管理以及文本分块查看。
+- 用户端：多轮对话、文本提问、图片或文件附件提问以及答案引用来源展示。
+- RAG 后端：按租户和知识库隔离的向量检索，并由百炼对话模型生成带引用的回答。
+- 企业级能力：JWT 认证、租户隔离、对象存储、异步索引、结构化日志、限流、安全响应头、上传扫描以及 Docker Compose 部署。
+- 模块化架构：后端采用“应用端口 + 基础设施适配器 + 组合根”的依赖方向，业务用例不直接依赖模型、存储和任务队列厂商 SDK，便于替换实现与自动化测试。
+
 ## Interface Preview
 
 ### Admin Console
